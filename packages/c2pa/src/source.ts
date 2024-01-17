@@ -33,6 +33,24 @@ export interface Source {
   arrayBuffer: Blob['arrayBuffer'];
 }
 
+const getFileType = (name: string): string => {
+  let type: string;
+  const ext = name.substring(name.lastIndexOf('.'));
+  switch (ext) {
+    case '.heif':
+      type = 'image/heif';
+      break;
+    case '.heic':
+      type = 'image/heic';
+      break;
+    default:
+      console.log('unknown extension ', ext);
+      type = 'application/c2pa';
+      break;
+  }
+  return type;
+};
+
 /**
  * Creates an object containing data for the image provided to the c2pa object.
  *
@@ -61,7 +79,11 @@ export async function createSource(
     };
   }
 
-  if (!Validator.isValidMimeType(blob.type))
+  if (
+    !Validator.isValidMimeType(
+      blob.type || getFileType(inputMetadata.filename!),
+    )
+  )
     throw new InvalidMimeTypeError(blob.type);
 
   return {

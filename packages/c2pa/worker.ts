@@ -17,8 +17,14 @@ import {
   ManifestStore,
   getManifestStoreFromArrayBuffer,
   getManifestStoreFromManifestAndAsset,
+  signAssetBuffer,
   default as initToolkit,
 } from '@contentauth/toolkit';
+import {
+  SigningData,
+  WebCryptoSigner,
+  createSigningInfo,
+} from './src/lib/signer';
 
 export interface IScanResult {
   found: boolean;
@@ -61,6 +67,21 @@ const worker = {
     } catch (err) {
       return { found: false };
     }
+  },
+
+  async sign(
+    wasm: WebAssembly.Module,
+    buffer: ArrayBuffer,
+    type: string,
+    data: SigningData,
+  ): Promise<ArrayBuffer> {
+    if (!data.key) {
+      throw new Error('Crypto key not provided!');
+    }
+    await initToolkit(wasm);
+    const signer = new WebCryptoSigner(data.alg, data.key);
+    const info = createSigningInfo(data, signer);
+    return signAssetBuffer(info, buffer, type);
   },
 };
 

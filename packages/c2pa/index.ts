@@ -18,6 +18,9 @@ export {
   C2pa,
   C2paConfig,
   C2paReadResult,
+  C2paAuthoring,
+  C2paSigningResult,
+  createC2paAuthoring,
   createC2pa,
   generateVerifyUrl,
 } from './src/c2pa';
@@ -55,3 +58,9 @@ export { selectProducer } from './src/selectors/selectProducer';
 export { selectSocialAccounts } from './src/selectors/selectSocialAccounts';
 export { C2paSourceType, Source, SourceMetadata } from './src/source';
 export { BlobUrlData, DisposableBlobUrl, Thumbnail } from './src/thumbnail';
+export {
+  createSigningInfo,
+  SigningData,
+  SigningCallback,
+  WebCryptoSigner,
+} from './src/lib/signer';

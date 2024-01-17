@@ -7,16 +7,21 @@
 
 // See https://github.com/rustwasm/wasm-bindgen/issues/2774
 #![allow(clippy::unused_unit)]
+use c2pa::{AsyncSigner, Ingredient, Manifest};
+use js_sys::{Array, Function, Uint8Array, Map};
 use log::Level;
 use serde::Serialize;
+use serde_json::Value;
 use serde_wasm_bindgen::Serializer;
 use std::panic;
 use wasm_bindgen::prelude::*;
 
+mod authoring;
 mod error;
 mod manifest_store;
 mod util;
 
+use authoring::KeyVaultSigner;
 use error::Error;
 use js_sys::Error as JsSysError;
 use js_sys::Reflect;
@@ -41,12 +46,32 @@ export function getManifestStoreFromManifestAndAsset(
     assetBuffer: ArrayBuffer,
     mimeType: string
 ): Promise<ManifestStore>;
+
+export type Algorithm = 'ps256' | 'es256' | 'ps384' | 'es384' | 'ps512' | 'es512' | 'ed25519';
+export type AssertionLabel = 'stds.exif' | 'stds.schema-org.CreativeWork' | 'c2pa.actions' | string;
+export interface SigningInfo {
+    alg: Algorithm;
+    thumbnail: Uint8Array | undefined;
+    thumbnail_format: string | undefined;
+    certificates: ArrayBuffer[];
+    assertions: Map<AssertionLabel, string> | undefined;
+    sign: (buffer: ArrayBuffer) => Promise<ArrayBuffer>;
+    timestamp?: (buffer: ArrayBuffer) => Promise<ArrayBuffer>;
+    digest: (buffer: ArrayBuffer) => Promise<ArrayBuffer>;
+    random: (size: number) => Promise<ArrayBuffer>;
+}
+
+export function signAssetBuffer(
+    info: SigningInfo,
+    buffer: ArrayBuffer,
+    mimeType: string
+): Promise<ArrayBuffer>
 "#;
 
 #[wasm_bindgen(start)]
 pub fn run() {
-    panic::set_hook(Box::new(console_error_panic_hook::hook));
     console_log::init_with_level(Level::Info).unwrap();
+    panic::set_hook(Box::new(console_error_panic_hook::hook));
 }
 
 /// Creates a JavaScript Error with additional error info
@@ -118,4 +143,107 @@ pub async fn get_manifest_store_from_manifest_and_asset(
     log_time("get_manifest_store_data_from_manifest_and_asset::javascript_conversion");
 
     Ok(js_value)
+}
+
+const GENERATOR: &str = "azure_media_provenance/0.1";
+
+#[wasm_bindgen]
+extern "C" {
+    #[wasm_bindgen(typescript_type = "SigningInfo")]
+    pub type SigningInfo;
+
+    #[wasm_bindgen(structural, method, getter)]
+    fn alg(this: &SigningInfo) -> String;
+
+    #[wasm_bindgen(structural, method, getter)]
+    fn certificates(this: &SigningInfo) -> Array;
+
+    #[wasm_bindgen(structural, method, getter)]
+    fn assertions(this: &SigningInfo) -> Option<Map>;
+
+    #[wasm_bindgen(structural, method, getter)]
+    fn sign(this: &SigningInfo) -> Function;
+
+    #[wasm_bindgen(structural, method, getter)]
+    fn timestamp(this: &SigningInfo) -> Option<Function>;
+
+    #[wasm_bindgen(structural, method, getter)]
+    fn digest(this: &SigningInfo) -> Function;
+
+    #[wasm_bindgen(structural, method, getter)]
+    fn random(this: &SigningInfo) -> Function;
+
+    #[wasm_bindgen(structural, method, getter)]
+    fn thumbnail(this: &SigningInfo) -> Option<Uint8Array>;
+
+    #[wasm_bindgen(structural, method, getter)]
+    fn thumbnail_format(this: &SigningInfo) -> String;
+}
+
+#[wasm_bindgen(js_name = signAssetBuffer, skip_typescript)]
+pub async fn sign_asset_buffer(
+    signing_info: &SigningInfo,
+    buffer: JsValue,
+    mime_type: String,
+) -> Result<JsValue, JsSysError> {
+    let asset: serde_bytes::ByteBuf = serde_wasm_bindgen::from_value(buffer)
+        .map_err(Error::SerdeInput)
+        .map_err(as_js_error)?;
+
+    // create a new Manifest
+    let mut manifest = Manifest::new(GENERATOR.to_owned());
+
+    if let Some(assertions) = signing_info.assertions() {
+        for key in assertions.keys() {
+            let key = key.map_err(|_|Error::JavaScriptConversion).map_err(as_js_error)?;
+            let value = assertions.get(&key);
+            let key = key.as_string().ok_or(Error::JavaScriptConversion).map_err(as_js_error)?;
+            let value = value.as_string().ok_or(Error::JavaScriptConversion).map_err(as_js_error)?;
+            let value: Value = serde_json::from_str(&value).map_err(|_| Error::JavaScriptConversion).map_err(as_js_error)?;
+            manifest.add_labeled_assertion(key, &value).map_err(|_| Error::JavaScriptConversion).map_err(as_js_error)?; 
+        }
+    };
+ 
+    if let Some(thumbnail) = signing_info.thumbnail() {
+        manifest
+            .set_thumbnail(signing_info.thumbnail_format(), thumbnail.to_vec())
+            .map_err(|x| Error::C2pa(x))
+            .map_err(as_js_error)?;
+    }
+
+    let source_ingredient = Ingredient::from_memory_async(&mime_type, &asset)
+        .await
+        .map_err(|e| Error::C2pa(e))
+        .map_err(as_js_error)?;
+    if source_ingredient.manifest_data().is_some() {
+        manifest
+            .set_parent(source_ingredient)
+            .map_err(|e| Error::C2pa(e))
+            .map_err(as_js_error)?;
+    }
+
+    let certificates: Vec<Vec<u8>> = signing_info
+        .certificates()
+        .to_vec()
+        .into_iter()
+        .map(|x| Uint8Array::new(&x).to_vec())
+        .collect();
+
+    let alg = signing_info.alg();
+    let signer: Box<dyn AsyncSigner> = Box::new(KeyVaultSigner::new(
+        signing_info.sign(),
+        signing_info.digest(),
+        signing_info.random(),
+        signing_info.timestamp(),
+        certificates,
+        &alg,
+    ));
+    let data = manifest
+        .embed_from_memory_async(&mime_type, &asset, signer.as_ref())
+        .await
+        .map_err(Error::C2pa)
+        .map_err(as_js_error)?;
+
+    let result = Uint8Array::from(&data[..]).into();
+    Ok(result)
 }

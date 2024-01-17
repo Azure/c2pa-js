@@ -230,9 +230,9 @@ checksum = "a2bd12c1caf447e69cd4528f47f94d203fd2582878ecb9e9465484c4148a8223"
 
 [[package]]
 name = "c2pa"
-version = "0.28.5"
+version = "0.28.6"
 source = "sparse+https://pkgs.dev.azure.com/msazure/One/_packaging/MediaProvenance-VerificationSite-Feed/Cargo/index/"
-checksum = "9ca02a9e554c7648e08193ba51624b2c207afff11c9fd1d796f172b312f92611"
+checksum = "3fdfade1f3ab19a7e0368058ef0cd006865c207e7128dea7c9fd6d0bd1ee070d"
 dependencies = [
  "asn1-rs",
  "async-generic",
@@ -296,6 +296,9 @@ dependencies = [
 name = "c2pa-js-toolkit"
 version = "0.23.1-1"
 dependencies = [
+ "async-trait",
+ "bcder",
+ "bytes",
  "c2pa",
  "console_error_panic_hook",
  "console_log",
@@ -313,6 +316,7 @@ dependencies = [
  "wasm-bindgen-futures",
  "wasm-bindgen-test",
  "web-sys",
+ "x509-certificate",
 ]
 
 [[package]]
@@ -1870,9 +1874,9 @@ checksum = "1778a42e8b3b90bff8d0f5032bf22250792889a5cdc752aa0020c84abe3aaf10"
 
 [[package]]
 name = "weezl"
-version = "0.1.7"
+version = "0.1.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9193164d4de03a926d909d3bc7c30543cecb35400c02114792c2cae20d5e2dbb"
+checksum = "53a85b86a771b1c87058196170769dd264f66c0782acf1ae6cc51bfd64b39082"
 
 [[package]]
 name = "winapi"
