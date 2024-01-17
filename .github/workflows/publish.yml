@@ -13,9 +13,9 @@ jobs:
         with:
           # Rush needs to diff against origin/main for changeset verification
           fetch-depth: 0
-      - uses: webfactory/ssh-agent@v0.5.4
-        with:
-          ssh-private-key: ${{ secrets.MACHINEUSER_PRIVATE_KEY }}
+      #- uses: webfactory/ssh-agent@v0.5.4
+      #  with:
+      #    ssh-private-key: ${{ secrets.MACHINEUSER_PRIVATE_KEY }}
       - uses: actions/setup-node@v3
         with:
           node-version: '16'
@@ -39,5 +39,5 @@ jobs:
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
         id: publish
-        run: rush publish --apply --target-branch main --publish
+        run: rush publish --apply --target-branch main --publish --registry https://pkgs.dev.azure.com/msazure/One/_packaging/MediaProvenance-VerificationSite-Feed/npm/registry/
         if: ${{ steps.verify.outcome == 'success' }}
