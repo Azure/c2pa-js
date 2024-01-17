@@ -1,6 +1,13 @@
 # Change Log - @contentauth/detector
 
-This log was last generated on Wed, 22 Mar 2023 18:52:56 GMT and should not be manually modified.
+This log was last generated on Wed, 17 Jan 2024 01:28:21 GMT and should not be manually modified.
+
+## 0.3.6
+Wed, 17 Jan 2024 01:28:21 GMT
+
+### Patches
+
+- Publish to https://pkgs.dev.azure.com/msazure/One/_packaging/MediaProvenance-VerificationSite-Feed/npm/registry
 
 ## 0.3.5
 Wed, 22 Mar 2023 18:52:56 GMT

@@ -1,6 +1,13 @@
 # Change Log - @contentauth/react
 
-This log was last generated on Thu, 11 Jan 2024 20:02:01 GMT and should not be manually modified.
+This log was last generated on Wed, 17 Jan 2024 01:28:21 GMT and should not be manually modified.
+
+## 0.2.40
+Wed, 17 Jan 2024 01:28:21 GMT
+
+### Patches
+
+- Publish to https://pkgs.dev.azure.com/msazure/One/_packaging/MediaProvenance-VerificationSite-Feed/npm/registry
 
 ## 0.2.39
 Thu, 11 Jan 2024 20:02:01 GMT

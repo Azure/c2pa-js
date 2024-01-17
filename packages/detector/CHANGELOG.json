@@ -2,6 +2,18 @@
   "name": "@contentauth/detector",
   "entries": [
     {
+      "version": "0.3.6",
+      "tag": "@contentauth/detector_v0.3.6",
+      "date": "Wed, 17 Jan 2024 01:28:21 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Publish to https://pkgs.dev.azure.com/msazure/One/_packaging/MediaProvenance-VerificationSite-Feed/npm/registry"
+          }
+        ]
+      }
+    },
+    {
       "version": "0.3.5",
       "tag": "@contentauth/detector_v0.3.5",
       "date": "Wed, 22 Mar 2023 18:52:56 GMT",
