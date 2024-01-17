@@ -2,6 +2,18 @@
   "name": "@contentauth/toolkit",
   "entries": [
     {
+      "version": "0.10.7",
+      "tag": "@contentauth/toolkit_v0.10.7",
+      "date": "Wed, 17 Jan 2024 16:17:46 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Bump version"
+          }
+        ]
+      }
+    },
+    {
       "version": "0.10.6",
       "tag": "@contentauth/toolkit_v0.10.6",
       "date": "Wed, 17 Jan 2024 01:28:21 GMT",

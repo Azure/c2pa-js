@@ -1,6 +1,13 @@
 # Change Log - @contentauth/toolkit
 
-This log was last generated on Wed, 17 Jan 2024 01:28:21 GMT and should not be manually modified.
+This log was last generated on Wed, 17 Jan 2024 16:17:46 GMT and should not be manually modified.
+
+## 0.10.7
+Wed, 17 Jan 2024 16:17:46 GMT
+
+### Patches
+
+- Bump version
 
 ## 0.10.6
 Wed, 17 Jan 2024 01:28:21 GMT
