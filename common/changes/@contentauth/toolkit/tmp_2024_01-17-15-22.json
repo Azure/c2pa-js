@@ -1,0 +1,10 @@
+{
+    "changes": [
+        {
+            "packageName": "@contentauth/toolkit",
+            "comment": "Bump version",
+            "type": "patch"
+        }
+    ],
+    "packageName": "@contentauth/toolkit"
+}
