@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/contentauth/c2pa-js.git"
+    "url": "git+https://github.com/Azure/c2pa-js.git"
   },
   "keywords": [
     "c2pa"

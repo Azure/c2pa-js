@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@contentauth/detector",
+      "comment": "Publish to https://pkgs.dev.azure.com/msazure/One/_packaging/MediaProvenance-VerificationSite-Feed/npm/registry",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@contentauth/detector"
+}
