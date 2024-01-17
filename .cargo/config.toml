@@ -1,0 +1,3 @@
+[registries.media-provenance]
+index = "sparse+https://pkgs.dev.azure.com/msazure/One/_packaging/MediaProvenance-VerificationSite-Feed/Cargo/index/"
+credential-provider = ["cargo:token"]
