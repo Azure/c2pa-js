@@ -26,6 +26,9 @@ jobs:
         run: |
           rustup target add wasm32-unknown-unknown
           curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+      - name: Login MediaProvenance feed
+        run: |
+          echo "${{ secrets.CRATES_IO_SECRET }}" | cargo login --registry media-provenance
       - name: Install Rush
         run: npm install -g @microsoft/rush
       - name: Install project dependencies
