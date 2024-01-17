@@ -23,6 +23,7 @@ module.exports = defineConfig({
     __EXAMPLES__: JSON.stringify(paths),
   },
   build: {
+    chunkSizeWarningLimit: 3000,
     rollupOptions: {
       input,
     },

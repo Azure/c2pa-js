@@ -8,6 +8,8 @@ version = "0.23.1-1"
 crate-type = ["cdylib"]
 
 [dependencies]
+bcder = "0.7.4"
+bytes = "1.4.0"
 c2pa = { version = "0.28.6", features = ["serialize_thumbnails", "pdf"], registry = "media-provenance" }
 console_error_panic_hook = "0.1.7"
 console_log = { version = "1.0.0", features = ["color"] }
@@ -22,7 +24,9 @@ serde_derive = "1.0.126"
 serde-transcode = "1.1.1"
 thiserror = "1.0.20"
 wasm-bindgen = { version = "0.2.83", features = ["serde-serialize"] }
-wasm-bindgen-futures = "0.4.29"
+wasm-bindgen-futures = "0.4.39"
+async-trait = "0.1.74"
+x509-certificate = "0.19.0"
 
 [dependencies.web-sys]
 version = "0.3.56"

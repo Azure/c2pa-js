@@ -7,7 +7,11 @@
  * it.
  */
 
-import { ToolkitError } from '@contentauth/toolkit';
+import {
+  ToolkitError,
+  signAssetBuffer,
+  default as initToolkit,
+} from '@contentauth/toolkit';
 import debug from 'debug';
 import { ensureCompatibility } from './lib/browser';
 import { Downloader, DownloaderOptions } from './lib/downloader';
@@ -17,6 +21,7 @@ import { SdkWorkerPool, createPoolWrapper } from './lib/poolWrapper';
 import { fetchWasm } from './lib/wasm';
 import { ManifestStore, createManifestStore } from './manifestStore';
 import { C2paSourceType, Source, createSource } from './source';
+import { SigningCallback, SigningData, createSigningInfo } from './lib/signer';
 
 const dbg = debug('c2pa');
 const dbgTask = debug('c2pa:task');
@@ -48,6 +53,20 @@ export interface C2paConfig {
    * By default, the SDK will fetch cloud-stored (remote) manifests. Set this to false to disable this behavior.
    */
   fetchRemoteManifests?: boolean;
+}
+
+export interface C2paSigningResult {
+  asset: ArrayBuffer | null;
+  manifestStore: ManifestStore | null;
+}
+
+export interface C2paAuthoring {
+  sign: (
+    blob: Blob,
+    data: SigningData,
+    callback?: SigningCallback,
+  ) => Promise<C2paSigningResult>;
+  dispose: () => void;
 }
 
 /**
@@ -133,7 +152,7 @@ export interface C2paReadResult {
 export async function createC2pa(config: C2paConfig): Promise<C2pa> {
   let jobCounter = 0;
 
-  dbg('Creating c2pa with config', config);
+  dbg('Creating c2pa authoring with config', config);
   ensureCompatibility();
 
   const pool = await createPoolWrapper({
@@ -197,6 +216,72 @@ export async function createC2pa(config: C2paConfig): Promise<C2pa> {
   return {
     read,
     readAll,
+    dispose: () => pool.dispose(),
+  };
+}
+
+export async function createC2paAuthoring(
+  config: C2paConfig,
+): Promise<C2paAuthoring> {
+  let jobCounter = 0;
+
+  dbg('Creating c2pa authoring with config', config);
+  ensureCompatibility();
+
+  const pool = await createPoolWrapper({
+    scriptSrc: config.workerSrc,
+    maxWorkers: navigator.hardwareConcurrency || 4,
+  });
+
+  const downloader = new Downloader(pool, config.downloaderOptions);
+
+  const wasm =
+    config.wasmSrc instanceof WebAssembly.Module
+      ? config.wasmSrc
+      : await fetchWasm(pool, config.wasmSrc);
+
+  const sign: C2paAuthoring['sign'] = async (input, data, callback) => {
+    const jobId = ++jobCounter;
+
+    dbgTask('[%s] Reading from input', jobId, input);
+
+    const source = await createSource(downloader, input);
+
+    dbgTask('[%s] Processing input', jobId, input);
+
+    if (!source.blob) {
+      return {
+        manifestStore: null,
+      };
+    }
+
+    const buffer = await source.arrayBuffer();
+    try {
+      if (callback) {
+        await initToolkit(wasm);
+        const info = createSigningInfo(data, callback);
+        const asset = await signAssetBuffer(info, buffer, source.type);
+        return {
+          asset,
+          manifestStore: null,
+        };
+      } else {
+        const asset = await pool.sign(wasm, buffer, source.type, data);
+        return {
+          asset,
+          manifestStore: null,
+        };
+      }
+    } catch (err) {
+      return {
+        asset: null,
+        manifestStore: null,
+      };
+    }
+  };
+
+  return {
+    sign,
     dispose: () => pool.dispose(),
   };
 }

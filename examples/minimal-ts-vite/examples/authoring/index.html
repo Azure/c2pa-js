@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="../../favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>c2pa authoring demo</title>
+    <style>
+      table,
+      th,
+      tr,
+      td {
+        border: 2px solid black;
+        border-collapse: collapse;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <h2>Follow steps in order.</h2>
+      <ol>
+        <li>
+          <label>Certificates and Key :</label>
+          <button id="certs">Get</button>
+          <label id="certificates"></label>
+        </li>
+        <li>
+          <label>Select output folder</label>
+          <button id="button">Output</button>
+          <label id="output"></label>
+        </li>
+        <li>
+          <label>Select input for authoring:</label>
+          <input
+            type="file"
+            id="input"
+            name="validation-input"
+            accept="image/*, video/*, text/*, application/*, audio/*"
+            multiple
+          />
+        </li>
+      </ol>
+      <table>
+        <thead>
+          <tr>
+            <th>File</th>
+            <th>Status</th>
+            <th>Time (ms)</th>
+            <th>Thumbnail</th>
+          </tr>
+        </thead>
+        <tbody id="table"></tbody>
+      </table>
+    </div>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>
