@@ -2,6 +2,18 @@
   "name": "@contentauth/toolkit",
   "entries": [
     {
+      "version": "0.10.8",
+      "tag": "@contentauth/toolkit_v0.10.8",
+      "date": "Thu, 18 Jan 2024 00:28:39 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Use c2pa@0.28.5 from https://pkgs.dev.azure.com/msazure/One/_packaging/MediaProvenance-VerificationSite-Feed/Cargo/index/"
+          }
+        ]
+      }
+    },
+    {
       "version": "0.10.7",
       "tag": "@contentauth/toolkit_v0.10.7",
       "date": "Wed, 17 Jan 2024 16:17:46 GMT",

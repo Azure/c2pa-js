@@ -1,6 +1,13 @@
 # Change Log - @contentauth/toolkit
 
-This log was last generated on Wed, 17 Jan 2024 16:17:46 GMT and should not be manually modified.
+This log was last generated on Thu, 18 Jan 2024 00:28:39 GMT and should not be manually modified.
+
+## 0.10.8
+Thu, 18 Jan 2024 00:28:39 GMT
+
+### Patches
+
+- Use c2pa@0.28.5 from https://pkgs.dev.azure.com/msazure/One/_packaging/MediaProvenance-VerificationSite-Feed/Cargo/index/
 
 ## 0.10.7
 Wed, 17 Jan 2024 16:17:46 GMT
