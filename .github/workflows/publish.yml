@@ -13,9 +13,9 @@ jobs:
         with:
           # Rush needs to diff against origin/main for changeset verification
           fetch-depth: 0
-      #- uses: webfactory/ssh-agent@v0.5.4
-      #  with:
-      #    ssh-private-key: ${{ secrets.MACHINEUSER_PRIVATE_KEY }}
+      - uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.MACHINEUSER_PRIVATE_KEY }}
       - uses: actions/setup-node@v3
         with:
           node-version: '16'
