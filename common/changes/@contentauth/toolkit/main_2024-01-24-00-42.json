@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@contentauth/toolkit",
+      "comment": "Use c2pa@0.28.6",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@contentauth/toolkit"
+}
