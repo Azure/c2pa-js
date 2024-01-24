@@ -2,6 +2,21 @@
   "name": "c2pa",
   "entries": [
     {
+      "version": "0.17.12",
+      "tag": "c2pa_v0.17.12",
+      "date": "Wed, 24 Jan 2024 22:13:35 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "publish authoring changes (2)"
+          },
+          {
+            "comment": "publish authoring changes"
+          }
+        ]
+      }
+    },
+    {
       "version": "0.17.11",
       "tag": "c2pa_v0.17.11",
       "date": "Wed, 24 Jan 2024 19:53:01 GMT",
