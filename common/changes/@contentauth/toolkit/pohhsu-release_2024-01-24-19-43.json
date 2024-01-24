@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@contentauth/toolkit",
+      "comment": "cp2a wasm authoring support",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@contentauth/toolkit"
+}
