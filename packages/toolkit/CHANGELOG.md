@@ -1,6 +1,13 @@
 # Change Log - @contentauth/toolkit
 
-This log was last generated on Thu, 18 Jan 2024 00:28:39 GMT and should not be manually modified.
+This log was last generated on Wed, 24 Jan 2024 19:53:01 GMT and should not be manually modified.
+
+## 0.10.9
+Wed, 24 Jan 2024 19:53:01 GMT
+
+### Patches
+
+- cp2a wasm authoring support
 
 ## 0.10.8
 Thu, 18 Jan 2024 00:28:39 GMT

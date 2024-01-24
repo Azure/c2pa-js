@@ -2,6 +2,18 @@
   "name": "@contentauth/toolkit",
   "entries": [
     {
+      "version": "0.10.9",
+      "tag": "@contentauth/toolkit_v0.10.9",
+      "date": "Wed, 24 Jan 2024 19:53:01 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "cp2a wasm authoring support"
+          }
+        ]
+      }
+    },
+    {
       "version": "0.10.8",
       "tag": "@contentauth/toolkit_v0.10.8",
       "date": "Thu, 18 Jan 2024 00:28:39 GMT",
