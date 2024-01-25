@@ -10,7 +10,7 @@ crate-type = ["cdylib"]
 [dependencies]
 bcder = "0.7.4"
 bytes = "1.4.0"
-c2pa = { version = "0.28.6", features = ["serialize_thumbnails", "pdf"], registry = "media-provenance" }
+c2pa = { version = "0.28.7", features = ["serialize_thumbnails", "pdf"], registry = "media-provenance" }
 console_error_panic_hook = "0.1.7"
 console_log = { version = "1.0.0", features = ["color"] }
 log = "0.4.14"

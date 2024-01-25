@@ -230,9 +230,9 @@ checksum = "a2bd12c1caf447e69cd4528f47f94d203fd2582878ecb9e9465484c4148a8223"
 
 [[package]]
 name = "c2pa"
-version = "0.28.6"
+version = "0.28.7"
 source = "sparse+https://pkgs.dev.azure.com/msazure/One/_packaging/MediaProvenance-VerificationSite-Feed/Cargo/index/"
-checksum = "3fdfade1f3ab19a7e0368058ef0cd006865c207e7128dea7c9fd6d0bd1ee070d"
+checksum = "6bee93ae4c59b8e8945c147abd0fb87f953bc80fc0a6ae1cbc58381598341321"
 dependencies = [
  "asn1-rs",
  "async-generic",
