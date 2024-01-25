@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@contentauth/detector",
+      "comment": "trigger authoring changes",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@contentauth/detector"
+}
