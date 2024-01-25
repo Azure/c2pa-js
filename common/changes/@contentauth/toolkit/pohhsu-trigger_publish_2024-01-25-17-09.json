@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@contentauth/toolkit",
+      "comment": "trigger authoring changes",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@contentauth/toolkit"
+}
