@@ -1,6 +1,13 @@
 # Change Log - @contentauth/detector
 
-This log was last generated on Wed, 17 Jan 2024 01:28:21 GMT and should not be manually modified.
+This log was last generated on Thu, 25 Jan 2024 17:29:48 GMT and should not be manually modified.
+
+## 0.3.7
+Thu, 25 Jan 2024 17:29:48 GMT
+
+### Patches
+
+- trigger authoring changes
 
 ## 0.3.6
 Wed, 17 Jan 2024 01:28:21 GMT
